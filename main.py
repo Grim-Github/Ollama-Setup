@@ -1,10 +1,8 @@
-player = {
-    "profile": {"username": "Grim", "level": 12, "xp": 3450},
-    "stats": {"hp": 120, "mana": 60, "strength": 18},
-}
+import ollama_api_06
 
-monster = {"type": "big" "spawnzones"}
 
-print(player["profile"]["level"])  # Grim
-print(player["stats"]["hp"])  # 120
-print(monster["type"])
+print(
+    ollama_api_06.chat_with_ollama(
+        "Hello! Find a interesting site. And paste link about gaming"
+    )
+)
