@@ -1,25 +1,33 @@
 import json
+import os
 import ollama
+
+def load_config(file_path="config.json"):
+    """Loads configuration from a JSON file."""
+    if os.path.exists(file_path):
+        with open(file_path, "r") as f:
+            return json.load(f)
+    return {}
+
+# Load global defaults
+CONFIG = load_config()
+DEFAULT_MODEL = CONFIG.get("model", "gpt-oss:120b-cloud")
+DEFAULT_SYSTEM_PROMPT = CONFIG.get("system_prompt", "You are a helpful and concise assistant.")
+DEFAULT_JSON_SYSTEM_PROMPT = CONFIG.get("json_system_prompt", "You are a helpful assistant that always responds in valid JSON.")
 
 
 def chat_with_ollama(
     user_input,
-    system_prompt="You are a helpful and concise assistant.",
-    model="gpt-oss:120b-cloud",
+    system_prompt=None,
+    model=None,
 ):
     """
     Sends a message to the Ollama API and returns the AI's response.
-
-    Args:
-        user_input (str): The message from the user.
-        system_prompt (str): The system prompt to set the AI's behavior.
-        model (str): The name of the AI model to use.
-
-    Returns:
-        str: The AI's response content.
     """
-    messages = []
+    system_prompt = system_prompt or DEFAULT_SYSTEM_PROMPT
+    model = model or DEFAULT_MODEL
 
+    messages = []
     if system_prompt:
         messages.append({"role": "system", "content": system_prompt})
 
@@ -31,22 +39,16 @@ def chat_with_ollama(
 
 def chat_with_ollama_json(
     user_input,
-    system_prompt="You are a helpful assistant that always responds in valid JSON.",
-    model="gpt-oss:120b-cloud",
+    system_prompt=None,
+    model=None,
 ):
     """
     Sends a message to the Ollama API and returns a parsed JSON response.
-
-    Args:
-        user_input (str): The message from the user.
-        system_prompt (str): The system prompt (should instruct model to use JSON).
-        model (str): The name of the AI model to use.
-
-    Returns:
-        dict: The parsed JSON response from the AI.
     """
-    messages = []
+    system_prompt = system_prompt or DEFAULT_JSON_SYSTEM_PROMPT
+    model = model or DEFAULT_MODEL
 
+    messages = []
     if system_prompt:
         messages.append({"role": "system", "content": system_prompt})
 

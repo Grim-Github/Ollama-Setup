@@ -1,0 +1,5 @@
+{
+  "model": "gpt-oss:120b-cloud",
+  "system_prompt": "You are a helpful and concise assistant.",
+  "json_system_prompt": "You are a helpful assistant that always responds in valid JSON."
+}
